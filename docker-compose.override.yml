@@ -1,0 +1,20 @@
+services:
+  netbox:
+    ports:
+      - "8050:8080"
+    env_file: stack.env
+
+  postgres:
+    env_file: stack.env
+
+  redis:
+    env_file: stack.env
+
+  redis-cache:
+    command:
+      - sh
+      - -c # this is to evaluate the $REDIS_CACHE_PASSWORD from the env
+      - valkey-server --requirepass $$REDIS_CACHE_PASSWORD ## $$ because of docker-compose
+    healthcheck:
+      test: '[ $$(valkey-cli --pass "$${REDIS_CACHE_PASSWORD}" ping) = ''PONG'' ]'
+    env_file: stack.env
