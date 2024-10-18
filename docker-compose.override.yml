@@ -1,0 +1,14 @@
+services:
+  netbox:
+    ports:
+      - "8050:8080"
+    env_file: stack.env
+
+  postgres:
+    env_file: stack.env
+
+  redis:
+    env_file: stack.env
+
+  redis-cache:
+    env_file: stack.env
